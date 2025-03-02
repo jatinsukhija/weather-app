@@ -62,7 +62,7 @@ resource "azurerm_key_vault_secret" "vm_ssh_key" {
 resource "azurerm_key_vault_access_policy" "sp_secret_access" {
   key_vault_id = azurerm_key_vault.vault.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = 3c4213c4-c34c-40da-a162-325154ae475b
+  object_id    = "3c4213c4-c34c-40da-a162-325154ae475b"
 
   secret_permissions = [ "Get", "Set", "List", "Delete", "Purge" ]
 }
