@@ -59,6 +59,13 @@ resource "azurerm_key_vault_secret" "vm_ssh_key" {
   key_vault_id = azurerm_key_vault.vault.id
 }
 
+resource "azurerm_public_ip" "weather" {
+  name                = "weather-public-ip"
+  location            = azurerm_resource_group.weather.location
+  resource_group_name = azurerm_resource_group.weather.name
+  allocation_method   = "Static"
+}
+
 resource "azurerm_network_interface" "weather" {
   name                = "weather-nic"
   location            = azurerm_resource_group.weather.location
@@ -71,14 +78,6 @@ resource "azurerm_network_interface" "weather" {
     public_ip_address_id          = azurerm_public_ip.weather.id
   }
 }
-
-resource "azurerm_public_ip" "weather" {
-  name                = "weather-public-ip"
-  location            = azurerm_resource_group.weather.location
-  resource_group_name = azurerm_resource_group.weather.name
-  allocation_method   = "Dynamic"
-}
-
 
 # Azure VM with SSH Key from Key Vault
 resource "azurerm_linux_virtual_machine" "weather" {
