@@ -41,7 +41,7 @@ resource "azurerm_key_vault" "vault" {
   resource_group_name = azurerm_resource_group.weather.name
   location            = azurerm_resource_group.weather.location
   sku_name            = "standard"
-  tenant_id           = data.azurerm_client_config.current.tenant_id
+  #tenant_id           = data.azurerm_client_config.current.tenant_id
 }
 
 # Generate SSH Key Pair
@@ -91,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "weather" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
-  
+
   admin_ssh_key {
     username   = var.admin_username
     public_key = tls_private_key.vm_ssh_key.public_key_openssh
