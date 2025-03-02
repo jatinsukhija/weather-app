@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
+      
       - name: Download Terraform Plan
         uses: actions/download-artifact@v4
         with:
@@ -55,8 +55,11 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
- 
-      - name: Apply Terraform Changes
+      
+      - name: Initialize Terraform
+        run: terraform init
+        
+      - name: Terraform Plan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
