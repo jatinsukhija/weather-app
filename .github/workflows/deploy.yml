@@ -56,15 +56,6 @@ jobs:
         with:
           terraform_version: 1.6.0
  
-      - name: Apply Plan
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        run: 
-          terraform plan
-    
       - name: Apply Terraform Changes
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -72,7 +63,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: 
-          terraform apply --auto-approve
+          terraform apply tfplan
 
       - name: Save VM Public IP as Artifact
         run: |
