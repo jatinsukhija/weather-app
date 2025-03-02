@@ -51,6 +51,11 @@ jobs:
         with:
           name: terraform-plan
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
       - name: Apply Terraform Changes
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
