@@ -46,14 +46,6 @@ resource "azurerm_key_vault" "vault" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
 }
 
-resource "azurerm_key_vault_access_policy" "sp_secret_access" {
-  key_vault_id = azurerm_key_vault.vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = var.sp_object_id
-
-  secret_permissions = [ "Get", "List", "Delete", "Purge" ]
-}
-
 # Generate SSH Key Pair
 resource "tls_private_key" "vm_ssh_key" {
   algorithm = "RSA"
@@ -65,6 +57,14 @@ resource "azurerm_key_vault_secret" "vm_ssh_key" {
   name         = var.secret_name
   value        = tls_private_key.vm_ssh_key.private_key_pem
   key_vault_id = azurerm_key_vault.vault.id
+}
+
+resource "azurerm_key_vault_access_policy" "sp_secret_access" {
+  key_vault_id = azurerm_key_vault.vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = var.sp_object_id
+
+  secret_permissions = [ "Get", "Set", "List", "Delete", "Purge" ]
 }
 
 resource "azurerm_public_ip" "weather" {
