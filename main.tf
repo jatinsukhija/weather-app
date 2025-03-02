@@ -35,13 +35,15 @@ resource "azurerm_network_security_group" "weather" {
   }
 }
 
+data "azurerm_client_config" "current" {}
+
 # Create Azure Key Vault
 resource "azurerm_key_vault" "vault" {
   name                = var.key_vault_name
   resource_group_name = azurerm_resource_group.weather.name
   location            = azurerm_resource_group.weather.location
   sku_name            = "standard"
-  #tenant_id           = data.azurerm_client_config.current.tenant_id
+  tenant_id           = data.azurerm_client_config.current.tenant_id
 }
 
 # Generate SSH Key Pair
