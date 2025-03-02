@@ -86,7 +86,12 @@ resource "azurerm_linux_virtual_machine" "weather" {
   size                  = "Standard_B1s"
   admin_username        = var.admin_username
   network_interface_ids = [azurerm_network_interface.weather.id]
-
+  
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+  
   admin_ssh_key {
     username   = var.admin_username
     public_key = tls_private_key.vm_ssh_key.public_key_openssh
