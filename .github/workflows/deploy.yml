@@ -64,7 +64,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: 
-          terraform apply --auto-approve
+          terraform apply --auto-approve - var=${{ secrets.ARM_CLIENT_ID }}
 
       - name: Save VM Public IP as Artifact
         run: |
@@ -104,5 +104,5 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key.pem azureuser@${{ env.VM_IP }} << 'EOF'
           sudo apt update && sudo apt install -y python3 python3-pip
           pip3 install flask requests gunicorn
-          nohup gunicorn -w 4 -b 0.0.0.0:5000 app:app &
+          nohup gunicorn -w 4 -b 0.0.0.0:80 app:app &
           EOF
