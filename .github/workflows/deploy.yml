@@ -28,7 +28,7 @@ jobs:
           ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        run: terraform plan -var=${{ secrets.ARM_CLIENT_ID }}
+        run: terraform plan -var="sp_object_id=$ARM_CLIENT_ID"
 
   apply:
     name: Terraform Apply (Manual Approval)
@@ -55,7 +55,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: 
-          terraform plan -var=${{ secrets.ARM_CLIENT_ID }}
+          terraform plan -var="sp_object_id=$ARM_CLIENT_ID"
       
       - name: Apply Terraform Changes
         env:
@@ -64,7 +64,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: 
-          terraform apply --auto-approve -var=${{ secrets.ARM_CLIENT_ID }}
+          terraform apply --auto-approve -var="sp_object_id=$ARM_CLIENT_ID"
 
       - name: Save VM Public IP as Artifact
         run: |
