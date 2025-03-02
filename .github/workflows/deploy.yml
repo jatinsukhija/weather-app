@@ -55,17 +55,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
-
-      - name: Apply Terraform Changes
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-        run: 
-          terraform plan
-          terraform apply --auto-approve
-      
+ 
       - name: Apply Plan
         env:
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
