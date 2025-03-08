@@ -92,9 +92,6 @@ jobs:
 
       - name: Read VM IP
         run: |
-          pwd
-          ls
-          cat vm_ip.txt
           VM_IP=$(cat vm_ip.txt)
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
 
