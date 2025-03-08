@@ -42,10 +42,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
           cli_config_credentials_token: ${{ secrets.ARM_CLIENT_SECRET }}
 
       - name: Set Azure Credentials
@@ -101,6 +97,14 @@ jobs:
           cat vm_ip.txt
           VM_IP=$(cat vm_ip.txt)
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
+
+      - name: Set Azure Credentials
+        run: |
+          echo "Setting up Azure credentials for Terraform..."
+          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
       - name: Retrieve SSH Key from Azure Key Vault
         id: get-private-key
