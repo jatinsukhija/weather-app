@@ -104,7 +104,7 @@ jobs:
 
       - name: Retrieve SSH Key from Azure Key Vault
         id: get-private-key
-        uses: azure/keyvault-secrets@v1
+        uses: azure/keyvault@v1
         with:
           keyvault: weather-keyvault
           secret: vm-ssh-key
