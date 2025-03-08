@@ -58,6 +58,9 @@ resource "azurerm_key_vault_access_policy" "sp_secret_access" {
     "Get",
     "List",
     "Set",
+    "Recover",
+    "Backup",
+    "Restore",
     "Delete",
     "Purge"
   ]
