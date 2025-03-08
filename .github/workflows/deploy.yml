@@ -102,7 +102,7 @@ jobs:
 
       - name: Save VM Public IP as Artifact
         run: |
-           terraform output -raw public_ip > vm_ip.txt
+           terraform output -raw public_ip  | tee vm_ip.txt
            cat vm_ip.txt
         shell: bash
 
