@@ -44,16 +44,27 @@ resource "azurerm_key_vault" "vault" {
   location            = azurerm_resource_group.weather.location
   sku_name            = "standard"
   tenant_id           = data.azurerm_client_config.current.tenant_id
-  enable_rbac_authorization   = true  
+  #enable_rbac_authorization   = true  
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
 }
 
-resource "azurerm_role_assignment" "sp_keyvault_access" {
-  scope                = azurerm_key_vault.vault.id
-  role_definition_name = "Key Vault Administrator"
-  principal_id         = "81d1d8f9-c2ea-40d6-95b4-1d78be2a2fe9"
+resource "azurerm_key_vault_access_policy" "sp_secret_access" {
+  key_vault_id = azurerm_key_vault.vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = var.sp_object_id
   depends_on = [azurerm_key_vault.vault]
+  secret_permissions = [
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Purge"
+  ]
+
+  lifecycle {
+    prevent_destroy = false  # Ensures Terraform deletes the policy
+  }
 }
 resource "azurerm_role_assignment" "sp_keyvault_access1" {
   scope                = azurerm_key_vault.vault.id
@@ -73,7 +84,7 @@ resource "azurerm_key_vault_secret" "vm_ssh_key" {
   name         = var.secret_name
   value        = tls_private_key.vm_ssh_key.private_key_pem
   key_vault_id = azurerm_key_vault.vault.id
-  depends_on = [azurerm_role_assignment.sp_keyvault_access]
+  depends_on = [azurerm_key_vault_access_policy.sp_secret_access]
 }
 
 resource "azurerm_public_ip" "weather" {
