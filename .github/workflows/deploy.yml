@@ -29,6 +29,8 @@ jobs:
   apply:
     name: Terraform Apply (Manual Approval)
     runs-on: ubuntu-latest
+    env:
+      SP_OBJECT_ID: ${{ secrets.SP_OBJECT_ID }}
     #needs: plan
     #environment: terraform-apply  # Triggers manual approval
 
@@ -58,14 +60,10 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        env:
-           SP_OBJECT_ID: ${{ secrets.SP_OBJECT_ID }}
         run: 
           terraform plan -var="sp_object_id=$SP_OBJECT_ID"
       
       - name: Apply Terraform Changes
-        env:
-           SP_OBJECT_ID: ${{ secrets.SP_OBJECT_ID }}
         run: 
           terraform apply --auto-approve -var="sp_object_id=$SP_OBJECT_ID"
 
