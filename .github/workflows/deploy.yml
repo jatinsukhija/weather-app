@@ -103,13 +103,21 @@ jobs:
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
 
       - name: Retrieve SSH Key from Azure Key Vault
+        id: get-private-key
+        uses: azure/keyvault-secrets@v1
+        with:
+          keyvault: weather-keyvault
+          secret: vm-ssh-key
+          display-name: private_key.pem
+
+      - name: Save private key to file
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          echo "${{ steps.get-private-key.outputs.private_key }}" > private_key.pem
           chmod 600 private_key.pem
 
       - name: Deploy Python App to Azure VM
         run: |
-          ssh -t -o StrictHostKeyChecking=no -i private_key.pem azureuser@$VM_IP << 'EOF'
+          ssh -t -o StrictHostKeyChecking=no -i private_key.pem weatheruser@$VM_IP << 'EOF'
           sudo apt update && sudo apt install -y python3 python3-pip
           pip3 install flask requests gunicorn
           nohup gunicorn -w 4 -b 0.0.0.0:80 app:app &
