@@ -102,8 +102,8 @@ jobs:
 
       - name: Save VM Public IP as Artifact
         run: |
-          echo "VM_IP=$(terraform output -raw public_ip)" > vm_ip.txt
-           echo "VM_IP=$(terraform output -raw public_ip)"
+           terraform output -raw public_ip > vm_ip.txt
+           cat vm_ip.txt
         shell: bash
 
       - name: Upload VM IP Artifact
