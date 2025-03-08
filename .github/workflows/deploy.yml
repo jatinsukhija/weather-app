@@ -132,7 +132,7 @@ jobs:
           pwd
           ls
           cat vm_ip.txt
-          echo "VM_IP=$(cat vm_ip.txt)" >> $GITHUB_ENV
+          cat vm_ip.txt >> $GITHUB_ENV
 
       - name: Retrieve SSH Key from Azure Key Vault
         run: |
