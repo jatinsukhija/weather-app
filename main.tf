@@ -61,18 +61,28 @@ resource "azurerm_key_vault_access_policy" "sp_secret_access" {
     "Delete",
     "Purge"
   ]
-
   lifecycle {
     prevent_destroy = false  # Ensures Terraform deletes the policy
   }
 }
-resource "azurerm_role_assignment" "sp_keyvault_access1" {
-  scope                = azurerm_key_vault.vault.id
-  role_definition_name = "Key Vault Administrator"
-  principal_id         = "f36ded29-1bd8-4339-b8fc-a8f5d8e650b2"
+/*
+resource "azurerm_key_vault_access_policy" "sp_secret_access1" {
+  key_vault_id = azurerm_key_vault.vault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = var.sp_object_id1
   depends_on = [azurerm_key_vault.vault]
+  secret_permissions = [
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Purge"
+  ]
+  lifecycle {
+    prevent_destroy = false  # Ensures Terraform deletes the policy
+  }
 }
-
+*/
 # Generate SSH Key Pair
 resource "tls_private_key" "vm_ssh_key" {
   algorithm = "RSA"

@@ -12,4 +12,9 @@ variable "sp_object_id" {
   description = "Object ID of the Service Principal"
   type        = string
 }
-
+/*
+variable "sp_object_id1" {
+  description = "Object ID of the Service Principal"
+  type        = string
+}
+*/
