@@ -83,6 +83,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Retrieve SSH Key from Azure Key Vault
+        id: get-private-key
+        uses: Azure/get-keyvault-secrets@v1
+        with:
+          keyvault: weather-keyvault
+          secret: vm-ssh-key
+          display-name: private_key.pem
+
+      - name: Save private key to file
+        run: |
+          echo "${{ steps.get-private-key.outputs.private_key.pem }}" > private_key.pem
+          chmod 600 private_key.pem
+
       - name: Download VM IP from Artifact
         uses: actions/download-artifact@v4
         with:
@@ -101,27 +114,14 @@ jobs:
           echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
-      - name: Login to Azure
-        uses: Azure/login@v1
-        with:
-          auth-type: IDENTITY
-          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          client-id: ${{ secrets.ARM_CLIENT_ID }}
-          tenant-id: ${{ secrets.ARM_TENANT_ID }}
-          enable-AzPSSession: true
-
-      - name: Retrieve SSH Key from Azure Key Vault
-        id: get-private-key
-        uses: Azure/get-keyvault-secrets@v1
-        with:
-          keyvault: weather-keyvault
-          secret: vm-ssh-key
-          display-name: private_key.pem
-
-      - name: Save private key to file
-        run: |
-          echo "${{ steps.get-private-key.outputs.private_key.pem }}" > private_key.pem
-          chmod 600 private_key.pem
+      # - name: Login to Azure
+      #   uses: Azure/login@v1
+      #   with:
+      #     auth-type: IDENTITY
+      #     subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      #     client-id: ${{ secrets.ARM_CLIENT_ID }}
+      #     tenant-id: ${{ secrets.ARM_TENANT_ID }}
+      #     enable-AzPSSession: true
 
       - name: Deploy Python App to Azure VM
         run: |
