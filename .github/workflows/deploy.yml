@@ -97,18 +97,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      - name: Retrieve SSH Key from Azure Key Vault
+      - name: Retrieve private key from Azure Key Vault
         id: get-private-key
-        uses: Azure/get-keyvault-secrets@v1
-        with:
-          keyvault: weather-keyvault
-          secret: vm-ssh-key
-          display-name: private_key.pem
-
-      - name: Save private key to file
         run: |
-          echo "${{ steps.get-private-key.outputs.private_key.pem }}" > private_key.pem
+          az keyvault secret show --vault-name ${{ secrets.KEYVAULT_NAME }} --name vm-ssh-key --query value -o tsv > private_key.pem
           chmod 600 private_key.pem
+
 
       - name: Download VM IP from Artifact
         uses: actions/download-artifact@v4
