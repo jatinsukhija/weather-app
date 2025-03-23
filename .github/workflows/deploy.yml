@@ -65,7 +65,7 @@ jobs:
 
       - name: Save VM Public IP as Artifact
         run: |
-           terraform output -raw public_ip | grep -i Terraform| egrep -v command| awk -F'::' '{print $1}' > vm_ip.txt
+           terraform output -raw public_ip > vm_ip.txt
         shell: bash
 
       - name: Upload VM IP Artifact
@@ -120,7 +120,7 @@ jobs:
           sudo apt update && sudo apt install -y python3 python3-pip
           pip3 install flask requests gunicorn
           nohup gunicorn -w 4 -b 0.0.0.0:80 app:app &
-          ssh -o StrictHostKeyChecking=no -i private_key.pem azureuser@$VM_IP
+          ssh -o StrictHostKeyChecking=no -i private_key.pem weatheruser@$VM_IP
           EOF
         env:
           VM_IP: ${{ env.VM_IP }}
