@@ -103,7 +103,7 @@ jobs:
 
       - name: Retrieve SSH Key from Azure Key Vault
         id: get-private-key
-        uses: azure/keyvault@v1
+        uses: Azure/get-keyvault-secrets@v1
         with:
           keyvault: weather-keyvault
           secret: vm-ssh-key
@@ -111,7 +111,7 @@ jobs:
 
       - name: Save private key to file
         run: |
-          echo "${{ steps.get-private-key.outputs.private_key }}" > private_key.pem
+          echo "${{ steps.get-private-key.outputs.private_key.pem }}" > private_key.pem
           chmod 600 private_key.pem
 
       - name: Deploy Python App to Azure VM
