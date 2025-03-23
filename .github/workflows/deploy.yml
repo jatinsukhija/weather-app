@@ -27,7 +27,7 @@ jobs:
   #       run: terraform plan -var="sp_object_id=$SP_OBJECT_ID"
 
   apply:
-    name: Terraform Apply
+    name: Terraform Run and Apply
     runs-on: ubuntu-latest
     env:
       SP_OBJECT_ID: ${{ secrets.SP_OBJECT_ID }}
@@ -44,13 +44,13 @@ jobs:
           terraform_version: 1.6.0
           cli_config_credentials_token: ${{ secrets.ARM_CLIENT_SECRET }}
 
-      - name: Set Azure Credentials
-        run: |
-          echo "Setting up Azure credentials for Terraform..."
-          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      # - name: Set Azure Credentials
+      #   run: |
+      #     echo "Setting up Azure credentials for Terraform..."
+      #     echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+      #     echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+      #     echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+      #     echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
           
       - name: Initialize Terraform
         run: terraform init
