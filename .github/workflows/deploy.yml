@@ -44,13 +44,13 @@ jobs:
           terraform_version: 1.6.0
           cli_config_credentials_token: ${{ secrets.ARM_CLIENT_SECRET }}
 
-      # - name: Set Azure Credentials
-      #   run: |
-      #     echo "Setting up Azure credentials for Terraform..."
-      #     echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
-      #     echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
-      #     echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
-      #     echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      - name: Set Azure Credentials
+        run: |
+          echo "Setting up Azure credentials for Terraform..."
+          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
           
       - name: Initialize Terraform
         run: terraform init
@@ -83,13 +83,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set Azure Credentials
-        run: |
-          echo "Setting up Azure credentials for Terraform..."
-          echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
-          echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
-          echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
-          echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
+      # - name: Set Azure Credentials
+      #   run: |
+      #     echo "Setting up Azure credentials for Terraform..."
+      #     echo "ARM_CLIENT_ID=${{ secrets.ARM_CLIENT_ID }}" >> $GITHUB_ENV
+      #     echo "ARM_CLIENT_SECRET=${{ secrets.ARM_CLIENT_SECRET }}" >> $GITHUB_ENV
+      #     echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
+      #     echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
       
       - name: Azure Login
@@ -113,15 +113,6 @@ jobs:
         run: |
           VM_IP=$(cat vm_ip.txt)
           echo "VM_IP=$VM_IP" >> $GITHUB_ENV
-
-      # - name: Login to Azure
-      #   uses: Azure/login@v1
-      #   with:
-      #     auth-type: SERVICE_PRINCIPAL
-      #     subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      #     client-id: ${{ secrets.ARM_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.ARM_TENANT_ID }}
-      #     enable-AzPSSession: true
 
       - name: Deploy Python App to Azure VM
         run: |
