@@ -65,9 +65,7 @@ jobs:
 
       - name: Save VM Public IP as Artifact
         run: |
-           terraform output -raw public_ip
            terraform output -raw public_ip | grep -i Terraform| egrep -v command| awk -F'::' '{print $1}' > vm_ip.txt
-           cat vm_ip.txt
         shell: bash
 
       - name: Upload VM IP Artifact
