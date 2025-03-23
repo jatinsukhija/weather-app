@@ -120,7 +120,7 @@ jobs:
           ssh -t -o StrictHostKeyChecking=no -i private_key.pem weatheruser@$VM_IP << 'EOF'
           sudo apt update && sudo apt install -y python3.8 python3-pip
           echo "API_KEY=${{ secrets.WEATHER_API_KEY }}" >> .env
-          pip3 install flask requests gunicorn
+          pip3 install flask requests python-dotenv
           python3 weather.py
           EOF
         env:
