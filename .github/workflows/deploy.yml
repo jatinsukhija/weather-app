@@ -101,6 +101,14 @@ jobs:
           echo "ARM_TENANT_ID=${{ secrets.ARM_TENANT_ID }}" >> $GITHUB_ENV
           echo "ARM_SUBSCRIPTION_ID=${{ secrets.ARM_SUBSCRIPTION_ID }}" >> $GITHUB_ENV
 
+      - name: Login to Azure
+        uses: Azure/login@v1
+        with:
+          azureSubscription: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          clientId: ${{ secrets.ARM_CLIENT_ID }}
+          clientSecret: ${{ secrets.ARM_CLIENT_SECRET }}
+          tenantId: ${{ secrets.ARM_TENANT_ID }}
+
       - name: Retrieve SSH Key from Azure Key Vault
         id: get-private-key
         uses: Azure/get-keyvault-secrets@v1
