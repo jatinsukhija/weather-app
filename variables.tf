@@ -5,7 +5,7 @@ variable "subnet_name" { default = "weather-subnet" }
 variable "nsg_name" { default = "weather-nsg" }
 variable "vm_name" { default = "weather-vm" }
 variable "admin_username" { default = "weatheruser" }
-variable "key_vault_name" { default = "weather-keyvault" }
+variable "key_vault_name" { default = "jatin-weather-keyvault" }
 variable "secret_name" { default = "vm-ssh-key" }
 
 variable "sp_object_id" {
