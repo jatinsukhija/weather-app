@@ -2,7 +2,7 @@ resource "azurerm_resource_group" "weather" {
   name     = var.resource_group
   location = var.location
 }
-
+#
 resource "azurerm_virtual_network" "weather" {
   name                = var.vnet_name
   location            = azurerm_resource_group.weather.location
